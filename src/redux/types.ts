@@ -1,20 +1,53 @@
 import { ChatEvent } from './constants';
 
 export interface Message {
-  user: User;
+  username: string;
   message: string;
 }
 
 export interface User {
   loggedIn: boolean;
-  id: number;
-  name: string;
+  id: string;
+  username: string | undefined;
 }
 
-export interface ChatState {
+export interface InitialUser {
+  loggedIn: boolean;
+}
+
+export type InitialChatState = {
+  loginError: boolean;
+  loginMessage: string;
+  user: User;
+  messages: Array<Message>;
+};
+
+export type UpdatedChatState = {
   messages: Array<Message>;
   users: Array<User>;
-  user: Partial<User>;
+  user: User;
+  loginError: boolean;
+  loginMessage: string;
+};
+
+export type ChatState = InitialChatState | UpdatedChatState;
+
+// export type ChatState =
+//   | {
+//       kind: 'loggingIn';
+//       loginError: boolean;
+//       loginMessage: string;
+//       user: InitialUser;
+//     }
+//   | {
+//       kind: 'loggedIn';
+//       messages: Array<Message>;
+//       users: Array<User>;
+//       user: User;
+//     };
+
+export interface RootState {
+  chatReducer: ChatState;
 }
 
 export interface UserState {
@@ -36,4 +69,13 @@ interface addMessageAction {
   payload: Message;
 }
 
-export type ChatActionTypes = addUserAction | userListAction | addMessageAction;
+interface loginErrorAction {
+  type: ChatEvent.LOGIN_ERROR;
+  payload: string;
+}
+
+export type ChatActionTypes =
+  | addUserAction
+  | userListAction
+  | addMessageAction
+  | loginErrorAction;

@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import WebSocketProvider from './WebSocket';
+
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -8,7 +10,9 @@ import store from './redux/store';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <WebSocketProvider>
+      <App />
+    </WebSocketProvider>
   </Provider>,
   document.getElementById('root')
 );

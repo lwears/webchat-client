@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -42,17 +42,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface BottomBarProps {
-  handleName: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  handleContent: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  name: string;
-  content: string;
+  handleSubmit: (
+    event: React.FormEvent<HTMLFormElement>,
+    message: string
+  ) => void;
 }
 
 export default function BottomBar(props: BottomBarProps): React.ReactElement {
   const classes = useStyles();
-
-  const { handleContent, handleName, handleSubmit, name, content } = props;
+  const [message, setMessage] = useState<string>('');
+  const { handleSubmit } = props;
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -61,25 +60,20 @@ export default function BottomBar(props: BottomBarProps): React.ReactElement {
           <div className={classes.icon}>
             <FaceIcon />
           </div>
-          <InputBase
-            onChange={handleName}
-            value={name}
-            placeholder="Name"
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            inputProps={{ 'aria-label': 'name' }}
-          />
         </div>
         <div className={classes.inputContainer}>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={(e) => {
+              handleSubmit(e, message);
+              setMessage('');
+            }}
+          >
             <div className={classes.icon}>
               <ChatIcon />
             </div>
             <InputBase
-              onChange={handleContent}
-              value={content}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
               placeholder="Type your message..."
               classes={{
                 root: classes.inputRoot,

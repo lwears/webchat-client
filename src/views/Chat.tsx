@@ -1,28 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import socketIOClient from 'socket.io-client';
+import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import './Chat.css';
-
+import { WebSocketContext } from '../WebSocket';
 import BottomBar from '../components/BottomBar';
-
-const endpoint = 'http://localhost:3000';
+import './Chat.css';
+import { RootState } from '../redux/types';
 
 function Chat(): React.ReactElement {
-  const [content, setContent] = useState<string>('');
-  const [name, setName] = useState<string>('');
+  const { username } = useSelector((s: RootState) => s.chatReducer.user);
+  const ws = useContext(WebSocketContext);
 
-  useEffect(() => {
-    const socket = socketIOClient(endpoint);
-  }, []);
-
-  const handleContent = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(event.target.value);
-  };
-
-  //
-  const handleName = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setName(event.target.value);
+  const sendMessage = (message: string) => {
+    if (ws && username) {
+      ws.sendMessage({
+        username,
+        message,
+      });
+    }
   };
 
   const scrollToBottom = () => {
@@ -32,9 +27,14 @@ function Chat(): React.ReactElement {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log(event);
+  const handleSubmit = (
+    event: React.FormEvent<HTMLFormElement>,
+    message: string
+  ) => {
+    // console.log(message);
     event.preventDefault();
+    sendMessage(message);
+    // socket.emit('message', message);
   };
 
   return (
@@ -49,13 +49,7 @@ function Chat(): React.ReactElement {
           </Typography>
         </div>
       </Paper>
-      <BottomBar
-        content={content}
-        handleContent={handleContent}
-        handleName={handleName}
-        handleSubmit={handleSubmit}
-        name={name}
-      />
+      <BottomBar handleSubmit={handleSubmit} />
     </div>
   );
 }

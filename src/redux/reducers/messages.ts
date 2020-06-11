@@ -4,9 +4,13 @@ import { ChatState, ChatActionTypes } from '../types';
 const initialState: ChatState = {
   users: [],
   user: {
+    username: '',
     loggedIn: false,
+    id: '',
   },
   messages: [],
+  loginError: false,
+  loginMessage: '',
 };
 
 const chatReducer = (
@@ -23,6 +27,12 @@ const chatReducer = (
       return {
         ...state,
         user: action.payload,
+      };
+    case ChatEvent.LOGIN_ERROR:
+      return {
+        ...state,
+        loginError: true,
+        loginMessage: action.payload,
       };
     // case ChatEvent.USERS_LIST:
     //   return action.user;

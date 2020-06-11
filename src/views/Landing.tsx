@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useRef } from 'react';
+import React, { ReactElement, useRef, useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,10 +9,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useDispatch, useSelector } from 'react-redux';
-import { log } from 'util';
-import { addUser } from '../redux/actions/index';
-import { User } from '../redux/types';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/types';
+import { WebSocketContext } from '../WebSocket';
 
 function Copyright() {
   return (
@@ -46,32 +45,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn(): ReactElement {
+export default function Landing(): ReactElement {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  // const [userInput, setUserInput] = useState('');
   const usernameRef = useRef<HTMLInputElement>(null);
-  const state = useSelector((s) => s);
+  const ws = useContext(WebSocketContext);
+  const { chatReducer } = useSelector((s: RootState) => s);
+  const { loginError, loginMessage } = chatReducer;
 
-  const logIn = (user: User) => dispatch(addUser(user));
-
-  // const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-  //   setUserInput(e.target.value);
-  // };
+  const login = (username: string) => {
+    if (ws) {
+      ws.login(username);
+    }
+  };
 
   const handleSubmit = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     if (usernameRef.current) {
-      const userObject = {
-        name: usernameRef.current.value,
-        loggedIn: true,
-        id: 1,
-      };
-      console.log(userObject);
-
-      console.log(state);
-
-      logIn(userObject);
+      login(usernameRef.current.value);
     }
   };
 
@@ -87,8 +77,9 @@ export default function SignIn(): ReactElement {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
+            error={loginError}
+            helperText={loginMessage}
             inputRef={usernameRef}
-            // onChange={handleChange}
             variant="outlined"
             margin="normal"
             required

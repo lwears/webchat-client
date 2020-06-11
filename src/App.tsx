@@ -1,14 +1,14 @@
 import React from 'react';
-import { useSelector, RootStateOrAny } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Landing from './views/Landing';
 import Chat from './views/Chat';
 import './App.css';
+import { RootState } from './redux/types';
 
 function App(): React.ReactElement {
-  const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.chatReducer.user.loggedIn
+  const { loggedIn } = useSelector(
+    (state: RootState) => state.chatReducer.user
   );
-  console.log(loggedIn);
 
   return <div className="App">{loggedIn ? <Chat /> : <Landing />}</div>;
 }

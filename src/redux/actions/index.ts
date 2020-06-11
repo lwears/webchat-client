@@ -16,6 +16,11 @@ export const populateUsersList = (users: Array<User>): ChatActionTypes => ({
   payload: users,
 });
 
+export const loginError = (payload: string): ChatActionTypes => ({
+  type: ChatEvent.LOGIN_ERROR,
+  payload,
+});
+
 // export const messageReceived = (message, author) => ({
 //   type: ChatEvent.MESSAGE_RECEIVED,
 //   message,
