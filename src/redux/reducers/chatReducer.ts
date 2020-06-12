@@ -34,8 +34,13 @@ const chatReducer = (
         loginError: true,
         loginMessage: action.payload,
       };
-    // case ChatEvent.USERS_LIST:
-    //   return action.user;
+    case ChatEvent.UPDATE_USERS:
+      return {
+        ...state,
+        users: [...state.users, ...action.payload],
+      };
+    case ChatEvent.LOGOUT:
+      return { ...initialState };
     default:
       return state;
   }

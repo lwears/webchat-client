@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import InputBase from '@material-ui/core/InputBase';
-import Toolbar from '@material-ui/core/Toolbar';
+import { InputBase, Button, Toolbar } from '@material-ui/core';
 
 import ChatIcon from '@material-ui/icons/Chat';
-import FaceIcon from '@material-ui/icons/Face';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -39,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1, 1, 1, 7),
     width: '100%',
   },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
 }));
 
 interface BottomBarProps {
@@ -46,20 +47,29 @@ interface BottomBarProps {
     event: React.FormEvent<HTMLFormElement>,
     message: string
   ) => void;
+  handleLogoff: () => void;
 }
 
 export default function BottomBar(props: BottomBarProps): React.ReactElement {
   const classes = useStyles();
   const [message, setMessage] = useState<string>('');
-  const { handleSubmit } = props;
+  const { handleSubmit, handleLogoff } = props;
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
         <div className={classes.inputContainer} style={{ maxWidth: '200px' }}>
-          <div className={classes.icon}>
-            <FaceIcon />
-          </div>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            classes={{
+              root: classes.inputRoot,
+            }}
+            onClick={handleLogoff}
+          >
+            Logout
+          </Button>
         </div>
         <div className={classes.inputContainer}>
           <form

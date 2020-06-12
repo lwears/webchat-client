@@ -11,9 +11,7 @@ export interface User {
   username: string | undefined;
 }
 
-export interface InitialUser {
-  loggedIn: boolean;
-}
+export type ChatUser = Omit<User, 'loggedIn'>;
 
 export type InitialChatState = {
   loginError: boolean;
@@ -24,27 +22,13 @@ export type InitialChatState = {
 
 export type UpdatedChatState = {
   messages: Array<Message>;
-  users: Array<User>;
+  users: Array<ChatUser>;
   user: User;
   loginError: boolean;
   loginMessage: string;
 };
 
 export type ChatState = InitialChatState | UpdatedChatState;
-
-// export type ChatState =
-//   | {
-//       kind: 'loggingIn';
-//       loginError: boolean;
-//       loginMessage: string;
-//       user: InitialUser;
-//     }
-//   | {
-//       kind: 'loggedIn';
-//       messages: Array<Message>;
-//       users: Array<User>;
-//       user: User;
-//     };
 
 export interface RootState {
   chatReducer: ChatState;
@@ -60,8 +44,8 @@ interface addUserAction {
 }
 
 interface userListAction {
-  type: ChatEvent.USERS_LIST;
-  payload: User[];
+  type: ChatEvent.UPDATE_USERS;
+  payload: ChatUser[];
 }
 
 interface addMessageAction {
@@ -74,8 +58,13 @@ interface loginErrorAction {
   payload: string;
 }
 
+interface logoutAction {
+  type: ChatEvent.LOGOUT;
+}
+
 export type ChatActionTypes =
   | addUserAction
   | userListAction
   | addMessageAction
-  | loginErrorAction;
+  | loginErrorAction
+  | logoutAction;

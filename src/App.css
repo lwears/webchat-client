@@ -3,6 +3,10 @@ body {
   padding: 16px;
 }
 
+.container {
+  display: flex;
+}
+
 #chat {
   max-height: calc(100vh - 128px);
   overflow: scroll;

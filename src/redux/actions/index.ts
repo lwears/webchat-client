@@ -1,5 +1,5 @@
 import { ChatEvent } from '../constants';
-import { Message, ChatActionTypes, User } from '../types';
+import { Message, ChatActionTypes, User, ChatUser } from '../types';
 
 export const addMessage = (newMessage: Message): ChatActionTypes => ({
   type: ChatEvent.ADD_MESSAGE,
@@ -11,14 +11,18 @@ export const addUser = (user: User): ChatActionTypes => ({
   payload: user,
 });
 
-export const populateUsersList = (users: Array<User>): ChatActionTypes => ({
-  type: ChatEvent.USERS_LIST,
+export const populateUsersList = (users: Array<ChatUser>): ChatActionTypes => ({
+  type: ChatEvent.UPDATE_USERS,
   payload: users,
 });
 
 export const loginError = (payload: string): ChatActionTypes => ({
   type: ChatEvent.LOGIN_ERROR,
   payload,
+});
+
+export const logoutUser = (): ChatActionTypes => ({
+  type: ChatEvent.LOGOUT,
 });
 
 // export const messageReceived = (message, author) => ({
