@@ -7,6 +7,7 @@ import {
   loginError,
   logoutUser,
   populateUsersList,
+  clearError,
 } from './redux/actions/index';
 import { Message, User, ChatUser } from './redux/types';
 
@@ -60,6 +61,15 @@ export default function WebSocketProvider({
   if (!socket) {
     socket = io.connect(endpoint);
 
+    socket.on('connect_error', () => {
+      dispatch(clearError());
+      dispatch(loginError('Server Offline'));
+    });
+
+    socket.on('connect', () => {
+      dispatch(clearError());
+    });
+
     socket.on('broadcast_message', (msg: Message) => {
       dispatch(addMessage(msg));
     });
@@ -83,6 +93,10 @@ export default function WebSocketProvider({
     socket.on('update_users', (users: ChatUser[]) => {
       dispatch(populateUsersList(users));
       console.log(users);
+    });
+
+    socket.on('logout', (msg: Message) => {
+      dispatch(logoutUser());
     });
 
     ws = {

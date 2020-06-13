@@ -1,4 +1,5 @@
-import React, { ReactElement, useRef, useContext } from 'react';
+import React, { ReactElement, useRef, useContext, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -7,7 +8,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useSelector } from 'react-redux';
+import { clearError } from '../redux/actions/index';
+
 import { RootState } from '../redux/types';
 import { WebSocketContext } from '../WebSocket';
 
@@ -32,9 +34,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Landing(): ReactElement {
+  const [validationError, setValidationError] = useState<string>('');
   const classes = useStyles();
   const usernameRef = useRef<HTMLInputElement>(null);
   const ws = useContext(WebSocketContext);
+  const dispatch = useDispatch();
   const { chatReducer } = useSelector((s: RootState) => s);
   const { loginError, loginMessage } = chatReducer;
 
@@ -51,6 +55,19 @@ export default function Landing(): ReactElement {
     }
   };
 
+  const usernameValidator = (username: string): void => {
+    dispatch(clearError());
+    setValidationError('');
+    if (username.length < 3 || username.length > 12) {
+      setValidationError('Username too short or too long');
+    }
+    if (!/^\w+$/.test(username)) {
+      setValidationError(
+        'userame can only contain letters, numbers and underscore'
+      );
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -63,9 +80,10 @@ export default function Landing(): ReactElement {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
-            error={loginError}
-            helperText={loginMessage}
+            error={loginError || Boolean(validationError)}
+            helperText={loginMessage || validationError}
             inputRef={usernameRef}
+            onChange={(e) => usernameValidator(e.target.value)}
             variant="outlined"
             margin="normal"
             required
@@ -77,6 +95,7 @@ export default function Landing(): ReactElement {
             autoFocus
           />
           <Button
+            disabled={Boolean(validationError)}
             type="submit"
             fullWidth
             variant="contained"

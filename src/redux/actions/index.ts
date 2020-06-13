@@ -21,6 +21,10 @@ export const loginError = (payload: string): ChatActionTypes => ({
   payload,
 });
 
+export const clearError = (): ChatActionTypes => ({
+  type: ChatEvent.CLEAR_ERROR,
+});
+
 export const logoutUser = (): ChatActionTypes => ({
   type: ChatEvent.LOGOUT,
 });

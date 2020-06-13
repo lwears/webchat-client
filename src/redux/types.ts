@@ -62,9 +62,14 @@ interface logoutAction {
   type: ChatEvent.LOGOUT;
 }
 
+interface clearErrorAction {
+  type: ChatEvent.CLEAR_ERROR;
+}
+
 export type ChatActionTypes =
   | addUserAction
   | userListAction
   | addMessageAction
   | loginErrorAction
-  | logoutAction;
+  | logoutAction
+  | clearErrorAction;

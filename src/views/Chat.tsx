@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { CssBaseline } from '@material-ui/core/';
 import { WebSocketContext } from '../WebSocket';
@@ -12,6 +12,17 @@ function Chat(): React.ReactElement {
   const { messages } = useSelector((s: RootState) => s.chatReducer);
   const ws = useContext(WebSocketContext);
 
+  const scrollToBottom = () => {
+    const chat = document.getElementById('chat');
+    if (chat) {
+      chat.scrollTop = chat.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const sendMessage = (message: string) => {
     if (ws && username) {
       ws.sendMessage({
@@ -21,21 +32,14 @@ function Chat(): React.ReactElement {
     }
   };
 
-  const scrollToBottom = () => {
-    const chat = document.getElementById('chat');
-    if (chat) {
-      chat.scrollTop = chat.scrollHeight;
-    }
-  };
-
   const handleSubmit = (
     event: React.FormEvent<HTMLFormElement>,
     message: string
   ) => {
-    // console.log(message);
     event.preventDefault();
-    sendMessage(message);
-    // socket.emit('message', message);
+    console.log('test', message);
+
+    if (message) sendMessage(message);
   };
 
   const handleLogOff = () => {
@@ -47,7 +51,7 @@ function Chat(): React.ReactElement {
   return (
     <div>
       <CssBaseline />
-      <Messages messages={messages} />
+      <Messages messages={messages} username={username || ''} />
       <BottomBar handleSubmit={handleSubmit} handleLogoff={handleLogOff} />
     </div>
   );

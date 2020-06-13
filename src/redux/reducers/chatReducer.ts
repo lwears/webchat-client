@@ -34,6 +34,8 @@ const chatReducer = (
         loginError: true,
         loginMessage: action.payload,
       };
+    case ChatEvent.CLEAR_ERROR:
+      return { ...initialState };
     case ChatEvent.UPDATE_USERS:
       return {
         ...state,

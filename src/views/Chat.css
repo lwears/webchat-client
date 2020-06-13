@@ -6,13 +6,34 @@ body {
 #chat {
   max-height: calc(100vh - 128px);
   overflow: scroll;
-  padding: 16px;
+  padding: 10px;
 }
 
 .name {
   color: rgba(0, 0, 0, 0.54);
+  width: auto;
 }
 
 .content {
   margin-bottom: 8px;
+  width: auto;
+}
+.paper {
+  margin: 10px;
+  padding: 10px;
+  max-width: 50%;
+  width: auto;
+}
+
+.container {
+  display: inline-block;
+}
+
+.system {
+  margin:auto;
+  text-align: center;
+}
+
+.current-user {
+  text-align: right;
 }

@@ -3,5 +3,6 @@ export enum ChatEvent {
   ADD_USER = 'ADD_USER',
   UPDATE_USERS = 'UPDATE_USERS',
   LOGIN_ERROR = 'LOGIN_ERROR',
+  CLEAR_ERROR = 'CLEAR_ERROR',
   LOGOUT = 'LOGOUT',
 }
