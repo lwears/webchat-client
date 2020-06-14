@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import { useDispatch } from 'react-redux';
 import {
   addMessage,
-  addUser,
+  login,
   loginError,
   logoutUser,
   populateUsersList,
@@ -14,7 +14,7 @@ import { Message, User, ChatUser } from './redux/types';
 type ContextProps = {
   socket: SocketIOClient.Socket;
   sendMessage: (message: Message) => void;
-  login: (username: string) => void;
+  sendLoginRequest: (username: string) => void;
   logout: () => void;
 };
 
@@ -45,7 +45,7 @@ export default function WebSocketProvider({
     dispatch(addMessage(message));
   };
 
-  const login = (username: string) => {
+  const sendLoginRequest = (username: string) => {
     if (socket) {
       socket.emit('new_user', username);
     }
@@ -62,7 +62,7 @@ export default function WebSocketProvider({
     socket = io.connect(endpoint);
 
     socket.on('connect_error', () => {
-      dispatch(clearError());
+      dispatch(logoutUser());
       dispatch(loginError('Server Offline'));
     });
 
@@ -75,7 +75,7 @@ export default function WebSocketProvider({
     });
 
     socket.on('login_success', (user: User) => {
-      dispatch(addUser(user));
+      dispatch(login(user));
     });
 
     socket.on('login_failure', (error: string) => {
@@ -96,17 +96,16 @@ export default function WebSocketProvider({
 
     socket.on('update_users', (users: ChatUser[]) => {
       dispatch(populateUsersList(users));
-      console.log(users);
     });
 
-    socket.on('logout', (msg: Message) => {
+    socket.on('logout', () => {
       dispatch(logoutUser());
     });
 
     ws = {
       socket,
       sendMessage,
-      login,
+      sendLoginRequest,
       logout,
     };
   }

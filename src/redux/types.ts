@@ -6,32 +6,34 @@ export interface Message {
 }
 
 export interface User {
-  loggedIn: boolean;
   id: string;
   username: string | undefined;
 }
 
 export type ChatUser = Omit<User, 'loggedIn'>;
 
-export type InitialChatState = {
+export type ChatState = {
+  loggedIn: boolean;
   loginError: boolean;
   errorMessage: string;
   user: User;
-  messages: Array<Message>;
-};
-
-export type UpdatedChatState = {
-  messages: Array<Message>;
   users: Array<ChatUser>;
-  user: User;
-  loginError: boolean;
-  errorMessage: string;
+  messages: Array<Message>;
 };
 
-export type ChatState = InitialChatState | UpdatedChatState;
+// export type UpdatedChatState = {
+//   loggedIn: boolean;
+//   messages: Array<Message>;
+//   users: Array<ChatUser>;
+//   user: User;
+//   loginError: boolean;
+//   errorMessage: string;
+// };
+
+// export type ChatState = InitialChatState | UpdatedChatState;
 
 export interface RootState {
-  chatReducer: ChatState;
+  chat: ChatState;
 }
 
 export interface UserState {
@@ -39,7 +41,7 @@ export interface UserState {
 }
 
 interface addUserAction {
-  type: ChatEvent.ADD_USER;
+  type: ChatEvent.LOGIN;
   payload: User;
 }
 

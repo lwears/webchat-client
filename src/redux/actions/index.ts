@@ -6,8 +6,8 @@ export const addMessage = (newMessage: Message): ChatActionTypes => ({
   payload: newMessage,
 });
 
-export const addUser = (user: User): ChatActionTypes => ({
-  type: ChatEvent.ADD_USER,
+export const login = (user: User): ChatActionTypes => ({
+  type: ChatEvent.LOGIN,
   payload: user,
 });
 

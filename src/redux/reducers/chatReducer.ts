@@ -5,10 +5,10 @@ const initialState: ChatState = {
   users: [],
   user: {
     username: '',
-    loggedIn: false,
     id: '',
   },
   messages: [],
+  loggedIn: false,
   loginError: false,
   errorMessage: '',
 };
@@ -23,10 +23,11 @@ const chatReducer = (
         ...state,
         messages: [...state.messages, action.payload],
       };
-    case ChatEvent.ADD_USER:
+    case ChatEvent.LOGIN:
       return {
         ...state,
         user: action.payload,
+        loggedIn: true,
       };
     case ChatEvent.LOGIN_ERROR:
       return {
@@ -35,11 +36,15 @@ const chatReducer = (
         errorMessage: action.payload,
       };
     case ChatEvent.CLEAR_ERROR:
-      return { ...initialState };
+      return {
+        ...state,
+        loginError: false,
+        errorMessage: '',
+      };
     case ChatEvent.UPDATE_USERS:
       return {
         ...state,
-        users: [...state.users, ...action.payload],
+        users: [...action.payload],
       };
     case ChatEvent.LOGOUT:
       return { ...initialState };

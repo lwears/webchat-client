@@ -7,8 +7,8 @@ import Messages from '../components/Messages';
 import { RootState } from '../redux/types';
 
 function Chat(): React.ReactElement {
-  const { username } = useSelector((s: RootState) => s.chatReducer.user);
-  const { messages } = useSelector((s: RootState) => s.chatReducer);
+  const { username } = useSelector((s: RootState) => s.chat.user);
+  const { messages } = useSelector((s: RootState) => s.chat);
   const ws = useContext(WebSocketContext);
 
   const scrollToBottom = () => {

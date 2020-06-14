@@ -40,12 +40,12 @@ export default function Landing(): ReactElement {
   const usernameRef = useRef<HTMLInputElement>(null);
   const ws = useContext(WebSocketContext);
   const dispatch = useDispatch();
-  const { chatReducer } = useSelector((s: RootState) => s);
-  const { loginError, errorMessage } = chatReducer;
+  const { chat } = useSelector((s: RootState) => s);
+  const { loginError, errorMessage } = chat;
 
   const login = (username: string) => {
     if (ws) {
-      ws.login(username);
+      ws.sendLoginRequest(username);
     }
   };
 
