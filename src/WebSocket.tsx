@@ -86,6 +86,10 @@ export default function WebSocketProvider({
       dispatch(addMessage(msg));
     });
 
+    socket.on('user_connected', (msg: Message) => {
+      dispatch(addMessage(msg));
+    });
+
     socket.on('user_logout', (msg: Message) => {
       dispatch(addMessage(msg));
     });

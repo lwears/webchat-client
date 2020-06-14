@@ -28,9 +28,3 @@ export const clearError = (): ChatActionTypes => ({
 export const logoutUser = (): ChatActionTypes => ({
   type: ChatEvent.LOGOUT,
 });
-
-// export const messageReceived = (message, author) => ({
-//   type: ChatEvent.MESSAGE_RECEIVED,
-//   message,
-//   author,
-// });

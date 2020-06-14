@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import { InputBase, Button, Toolbar, Box, TextField } from '@material-ui/core';
+import { InputBase, Button, Toolbar, Box } from '@material-ui/core';
 
 import ChatIcon from '@material-ui/icons/Chat';
 
@@ -10,28 +10,41 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     bottom: 0,
     top: 'auto',
+    backgroundColor: '#eeeeee',
   },
+
   inputContainer: {
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
+    backgroundColor: '#ffffff',
     borderRadius: theme.shape.borderRadius,
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
   },
+
   icon: {
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
+    justifySelf: 'center',
+    flexGrow: 0.5,
   },
+
+  iconContainer: {
+    display: 'flex',
+    padding: theme.spacing(0, 2),
+    height: '100%',
+  },
+
   inputRoot: {
-    color: 'inherit',
+    flexGrow: 1,
   },
+
   inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
+    padding: theme.spacing(1, 1, 1, 0),
+    transition: theme.transitions.create('width'),
   },
+
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+
   form: {
     display: 'flex',
     flexDirection: 'row',
@@ -87,17 +100,16 @@ export default function BottomBar(props: BottomBarProps): React.ReactElement {
             >
               <Box
                 display="flex"
-                flexDirection="row"
                 flexGrow={1}
                 alignItems="center"
-                alignContent="flex-start"
-                justifyContent="center"
                 className={classes.inputContainer}
               >
-                <div className={classes.icon}>
-                  <ChatIcon />
+                <div className={classes.iconContainer}>
+                  <ChatIcon style={{ color: '#6374fb' }} />
                 </div>
                 <InputBase
+                  fullWidth
+                  autoFocus
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Type your message..."
@@ -108,13 +120,7 @@ export default function BottomBar(props: BottomBarProps): React.ReactElement {
                   inputProps={{ 'aria-label': 'content' }}
                 />
               </Box>
-              <Button
-                variant="contained"
-                color="primary"
-                classes={{
-                  root: classes.inputRoot,
-                }}
-              >
+              <Button type="submit" variant="contained" color="primary">
                 Send
               </Button>
             </form>

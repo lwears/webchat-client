@@ -10,7 +10,7 @@ const initialState: ChatState = {
   },
   messages: [],
   loginError: false,
-  loginMessage: '',
+  errorMessage: '',
 };
 
 const chatReducer = (
@@ -32,7 +32,7 @@ const chatReducer = (
       return {
         ...state,
         loginError: true,
-        loginMessage: action.payload,
+        errorMessage: action.payload,
       };
     case ChatEvent.CLEAR_ERROR:
       return { ...initialState };

@@ -1,7 +1,7 @@
 import { ChatEvent } from './constants';
 
 export interface Message {
-  username: string;
+  author: string;
   message: string;
 }
 
@@ -15,7 +15,7 @@ export type ChatUser = Omit<User, 'loggedIn'>;
 
 export type InitialChatState = {
   loginError: boolean;
-  loginMessage: string;
+  errorMessage: string;
   user: User;
   messages: Array<Message>;
 };
@@ -25,7 +25,7 @@ export type UpdatedChatState = {
   users: Array<ChatUser>;
   user: User;
   loginError: boolean;
-  loginMessage: string;
+  errorMessage: string;
 };
 
 export type ChatState = InitialChatState | UpdatedChatState;
