@@ -1,42 +1,58 @@
-import React, { useContext, useEffect } from 'react';
-import { CssBaseline } from '@material-ui/core/';
+import React, { useContext, useEffect, useState } from 'react';
+import { CssBaseline, Grid, makeStyles, Hidden, Box } from '@material-ui/core/';
 import { useSelector } from 'react-redux';
 import { WebSocketContext } from '../WebSocket';
-import BottomBar from '../components/BottomBar';
 import Messages from '../components/Messages';
+import SendMessage from '../components/SendMessage';
+import TopBarChat from '../components/TopBarChat';
+import SideBar from '../components/SideBar';
+import TopBarUsers from '../components/TopBarUsers';
+
 import { RootState } from '../redux/types';
 
+const useStyles = makeStyles(() => ({
+  root: {
+    flexGrow: 1,
+  },
+
+  chatWindow: {
+    backgroundColor: '#efeef1',
+    height: '100vh',
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  chatContainer: {
+    width: '100%',
+    padding: '1em',
+  },
+}));
+
 function Chat(): React.ReactElement {
+  const classes = useStyles();
   const { username } = useSelector((s: RootState) => s.chat.user);
   const { messages } = useSelector((s: RootState) => s.chat);
+  const { users } = useSelector((s: RootState) => s.chat);
   const ws = useContext(WebSocketContext);
 
-  const scrollToBottom = () => {
-    const chat = document.getElementById('chat');
-    if (chat) {
-      chat.scrollTop = chat.scrollHeight;
-    }
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const sendMessage = (message: string) => {
+  const sendMessage = (msg: string) => {
     if (ws && username) {
       ws.sendMessage({
         author: username,
-        message,
+        message: msg,
       });
     }
   };
 
   const handleSubmit = (
     event: React.FormEvent<HTMLFormElement>,
-    message: string
+    msg: string
   ) => {
     event.preventDefault();
-    if (message) sendMessage(message);
+    if (msg) sendMessage(msg);
   };
 
   const handleLogOff = () => {
@@ -48,8 +64,26 @@ function Chat(): React.ReactElement {
   return (
     <>
       <CssBaseline />
-      <Messages messages={messages} username={username || ''} />
-      <BottomBar handleSubmit={handleSubmit} handleLogoff={handleLogOff} />
+      <Grid container direction="row" className={classes.root}>
+        <Hidden xsDown>
+          <Grid item sm={3}>
+            <TopBarUsers />
+            <SideBar users={users} />
+          </Grid>
+        </Hidden>
+        <Grid item xs={12} sm={9} className={classes.chatWindow}>
+          <TopBarChat handleLogoff={handleLogOff} />
+          <Box
+            display="flex"
+            flexDirection="column"
+            flexGrow={1}
+            className={classes.chatContainer}
+          >
+            <Messages messages={messages} username={username || ''} />
+            <SendMessage handleSubmit={handleSubmit} />
+          </Box>
+        </Grid>
+      </Grid>
     </>
   );
 }

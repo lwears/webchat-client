@@ -1,17 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, ReactElement } from 'react';
 import { Paper, Typography, makeStyles, withStyles } from '@material-ui/core/';
 import { Message } from '../redux/types';
 
-interface Props {
-  messages: Message[];
-  username: string;
-}
-
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   chat: {
-    maxHeight: 'calc(100vh - 110px)',
+    maxHeight: 'calc(100vh - 140px)',
     overflow: 'scroll',
-    paddingBottom: '50',
+    width: '100%',
+    height: '100%',
   },
 
   name: {
@@ -19,21 +15,22 @@ const useStyles = makeStyles(() => ({
     paddingRight: '0.5em',
   },
 
-  paper: {
-    padding: '0.5em',
+  bubble: {
     width: 'auto',
-    borderRadius: 10,
+    padding: '7px 13px 7px 13px',
   },
 
-  backgroundLight: {
-    backgroundColor: '#7986cb',
+  bubbleLeft: {
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: '20px 20px 20px 3px',
   },
 
-  backgroundDarker: {
-    backgroundColor: '#3949ab',
+  bubbleRight: {
+    backgroundColor: '#ffffff',
+    borderRadius: '20px 20px 3px 20px',
   },
 
-  chatContainer: {
+  chatDiv: {
     display: 'flex',
     flex: 1,
   },
@@ -51,7 +48,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
   },
 
-  border: {
+  chatContainer: {
     maxWidth: '60%',
     display: 'flex',
     flexDirection: 'column',
@@ -66,10 +63,12 @@ const WhiteTextTypography = withStyles({
   },
 })(Typography);
 
-export default function Messages({
-  messages,
-  username,
-}: Props): React.ReactElement {
+interface Props {
+  messages: Message[];
+  username: string;
+}
+
+export default function Messages({ messages, username }: Props): ReactElement {
   const classes = useStyles();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -85,42 +84,43 @@ export default function Messages({
 
   return (
     <div className={classes.chat}>
-      {messages.map((el, index) => {
+      {messages.map((el, i, arr) => {
         if (el.author === 'System') {
           return (
-            <div
-              key={index}
-              className={`${classes.chatContainer} ${classes.center}`}
-            >
+            <div key={i} className={`${classes.chatDiv} ${classes.center}`}>
               <Typography variant="caption" className="name">
                 {el.message}
               </Typography>
             </div>
           );
         }
-
+        if (el.author === username) {
+          return (
+            <div key={i} className={`${classes.chatDiv} ${classes.right}`}>
+              <div className={classes.chatContainer}>
+                <Paper
+                  elevation={2}
+                  className={`${classes.bubble} ${classes.bubbleRight}`}
+                >
+                  <Typography variant="body1">{el.message}</Typography>
+                </Paper>
+              </div>
+            </div>
+          );
+        }
         return (
-          <div
-            key={index}
-            className={`${classes.chatContainer} ${
-              el.author === username ? classes.right : classes.left
-            }`}
-          >
-            <div className={classes.border}>
+          <div key={i} className={`${classes.chatDiv} ${classes.left}`}>
+            <div className={classes.chatContainer}>
               <Typography
                 variant="caption"
                 className="name"
                 color="textSecondary"
               >
-                {el.author === username ? 'You' : el.author}
+                {arr[i - 1].author !== el.author ? el.author : null}
               </Typography>
               <Paper
                 elevation={2}
-                className={`${classes.paper} ${
-                  el.author === username
-                    ? classes.backgroundDarker
-                    : classes.backgroundLight
-                } `}
+                className={`${classes.bubble} ${classes.bubbleLeft}`}
               >
                 <WhiteTextTypography variant="body1">
                   {el.message}
