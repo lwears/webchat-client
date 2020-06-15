@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     width: '100%',
     height: '100%',
+    flexGrow: 1,
   },
 
   name: {

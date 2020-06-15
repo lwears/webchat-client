@@ -5,10 +5,6 @@ import SendIcon from '@material-ui/icons/Send';
 import ChatIcon from '@material-ui/icons/Chat';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-
   inputContainer: {
     backgroundColor: '#ffffff',
     borderRadius: 50,
@@ -35,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'flex-end',
     width: '100%',
   },
 }));
@@ -55,41 +50,39 @@ export default function SendMessage(
   const { handleSubmit } = props;
 
   return (
-    <Box display="flex">
-      <form
-        onSubmit={(e) => {
-          handleSubmit(e, message);
-          setMessage('');
-        }}
-        className={classes.form}
+    <form
+      onSubmit={(e) => {
+        handleSubmit(e, message);
+        setMessage('');
+      }}
+      className={classes.form}
+    >
+      <Box
+        display="flex"
+        flexGrow={1}
+        alignItems="center"
+        className={classes.inputContainer}
+        boxShadow={1}
       >
-        <Box
-          display="flex"
-          flexGrow={1}
-          alignItems="center"
-          className={classes.inputContainer}
-          boxShadow={1}
-        >
-          <div className={classes.iconContainer}>
-            <ChatIcon style={{ color: '#6374fb' }} />
-          </div>
-          <InputBase
-            fullWidth
-            autoFocus
-            placeholder="Type your message..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            inputProps={{ 'aria-label': 'content' }}
-          />
-        </Box>
-        <IconButton type="submit" color="primary">
-          <SendIcon />
-        </IconButton>
-      </form>
-    </Box>
+        <div className={classes.iconContainer}>
+          <ChatIcon style={{ color: '#6374fb' }} />
+        </div>
+        <InputBase
+          fullWidth
+          autoFocus
+          placeholder="Type your message..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ 'aria-label': 'content' }}
+        />
+      </Box>
+      <IconButton type="submit" color="primary">
+        <SendIcon />
+      </IconButton>
+    </form>
   );
 }

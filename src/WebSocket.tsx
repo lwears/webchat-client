@@ -26,7 +26,7 @@ const WebSocketContext = createContext<ContextValue>(undefined);
 const endpoint =
   process.env.NODE_ENV === 'production'
     ? (process.env.REACT_APP_API_URL as string)
-    : 'http://localhost:3000/';
+    : 'http://192.168.1.181:3000/';
 
 export { WebSocketContext };
 

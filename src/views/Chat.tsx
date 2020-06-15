@@ -18,10 +18,8 @@ const useStyles = makeStyles(() => ({
   chatWindow: {
     backgroundColor: '#efeef1',
     height: '100vh',
-    flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
     justifyContent: 'center',
   },
 
