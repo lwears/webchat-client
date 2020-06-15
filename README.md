@@ -10,8 +10,6 @@
 - Winston
 - Heroku & Netlify
 
-## 🧪 Testing
-
 The frontend is deployed on Netlify and the server is deployed at Heroku.
 
 You can view the live version oft the app @: https://lwears-chat-app.netlify.app/.
@@ -37,14 +35,14 @@ $ npm start
 ### Linting
 - AirBnb
 
-### Run tests
+### 🧪 Run tests
 Redux Testing with Jest
 
 ```
 $ npm test
 ```
 
-## 🧰 Functionality
+## Functionality
 
 ### Server
 
