@@ -12,16 +12,23 @@
 
 ## 🧪 Testing
 
-The frontend is deployed on Netlify and the server is deployed at Heroku. 
-You can view the live version oft he app @: https://lwears-chat-app.netlify.app/. 
+The frontend is deployed on Netlify and the server is deployed at Heroku.
+
+You can view the live version oft the app @: https://lwears-chat-app.netlify.app/.
+
 You can also run the app locally by cloning this repo and the [Backend](https://github.com/lwears/webchat-server) repo and following the below instructions
 
+## To run locally
+
+## Server
+Clone repo
+```
+$ npm install
+$ npm start
+```
+
 ## Client
-
-- TypeScript
-- ReactJS
-- Material UI
-
+Clone Repo
 ```
 $ npm install
 $ npm start
@@ -30,21 +37,8 @@ $ npm start
 ### Linting
 - AirBnb
 
-## Server
-
-- TypeScript
-- Express
-- NodeJS
-
-## To run
-
-```
-$ npm install
-$ npm start
-```
-
 ### Run tests
-Unit Testing for UserService API with Jest
+Redux Testing with Jest
 
 ```
 $ npm test
