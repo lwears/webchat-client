@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 import { InputBase, IconButton, Box } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
-
 import ChatIcon from '@material-ui/icons/Chat';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
   inputRoot: {
     flexGrow: 1,
+    padding: theme.spacing(0.5),
   },
 
   inputInput: {

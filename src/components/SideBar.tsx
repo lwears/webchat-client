@@ -10,9 +10,12 @@ import { User } from '../redux/types';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: '100%',
-      maxWidth: 360,
       backgroundColor: theme.palette.background.paper,
+    },
+    listItem: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
     },
   })
 );
@@ -28,7 +31,7 @@ export default function SideBar({ users }: Props): React.ReactElement {
     <List dense className={classes.root}>
       {users.map((user) => {
         return (
-          <ListItem key={user.id}>
+          <ListItem key={user.id} alignItems="center">
             <ListItemAvatar>
               <Avatar>{user.username?.charAt(0)}</Avatar>
             </ListItemAvatar>

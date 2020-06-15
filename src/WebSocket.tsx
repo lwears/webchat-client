@@ -13,7 +13,7 @@ import { Message, User, ChatUser } from './redux/types';
 
 type ContextProps = {
   socket: SocketIOClient.Socket;
-  sendMessage: (message: Message) => void;
+  sendMessage: (message: string) => void;
   sendLoginRequest: (username: string) => void;
   logout: () => void;
 };
@@ -23,7 +23,10 @@ export type ContextValue = DefaultValue | ContextProps;
 
 const WebSocketContext = createContext<ContextValue>(undefined);
 
-const endpoint = 'http://localhost:3000';
+const endpoint =
+  process.env.NODE_ENV === 'production'
+    ? (process.env.REACT_APP_API_URL as string)
+    : 'http://localhost:3000/';
 
 export { WebSocketContext };
 
@@ -38,11 +41,10 @@ export default function WebSocketProvider({
 
   const dispatch = useDispatch();
 
-  const sendMessage = (message: Message) => {
+  const sendMessage = (message: string) => {
     if (socket) {
       socket.emit('message', message);
     }
-    dispatch(addMessage(message));
   };
 
   const sendLoginRequest = (username: string) => {

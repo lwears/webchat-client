@@ -1,44 +1,75 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Web Chat App
 
-## Available Scripts
+## 👨‍💻 Tech stack
 
-In the project directory, you can run:
+- React (Functional components, Hooks, Redux)
+- Typescript
+- Socket<span></span>.io
+- Jest
+- Express
+- Winston
+- Heroku & Netlify
 
-### `yarn start`
+## 🧪 Testing
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The frontend is deployed on Netlify and the server is deployed at Heroku. 
+You can view the live version oft he app @: https://lwears-chat-app.netlify.app/. 
+You can also run the app locally by cloning this repo and the [Backend](https://github.com/lwears/webchat-server) repo and following the below instructions
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Client
 
-### `yarn test`
+- TypeScript
+- ReactJS
+- Material UI
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+$ npm install
+$ npm start
+```
 
-### `yarn build`
+### Linting
+- AirBnb
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Server
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- TypeScript
+- Express
+- NodeJS
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## To run
 
-### `yarn eject`
+```
+$ npm install
+$ npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Run tests
+Unit Testing for UserService API with Jest
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+$ npm test
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 🧰 Functionality
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Server
 
-## Learn More
+- Sends received messages to all connected clients.
+- If a client is silent for more than a certain (configurable) amount of time, it is
+  disconnected; a message about the event (e.g. "John was disconnected due to
+  inactivity") is sent to all connected clients.
+- If a client is disconnected, but not due to inactivity, a different message is sent (e.g.
+  "John left the chat, connection lost" instead.)
+- Doesn't allow multiple active users with the same nickname.
+- Validates data received over the network.
+- Terminates gracefully upon receiving SIGINT or SIGTERM signals.
+- Logs all activity with Winston.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Client
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Has two pages - landing page (shown when not connected to the server) and chat
+  (shown only when connected to the server).
+- Landing page displays feedback like 'Failed to connect. Nickname already taken.', 'Server unavailable.' or 'Disconnected by the server due to inactivity.’ as a pop up.
+- Chat page displays messages from the server together with the sender's nickname (but
+  no messages from before the user's current session started).
+- Displays landing page if it's disconnected from the server.

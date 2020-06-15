@@ -5,7 +5,7 @@ import { Message } from '../redux/types';
 const useStyles = makeStyles((theme) => ({
   chat: {
     maxHeight: 'calc(100vh - 140px)',
-    overflow: 'scroll',
+    overflow: 'hidden',
     width: '100%',
     height: '100%',
   },
@@ -55,6 +55,16 @@ const useStyles = makeStyles((theme) => ({
     wordBreak: 'break-all',
     padding: '0.3em',
   },
+
+  chatWindow: {
+    height: '60vh',
+    overflowY: 'auto',
+    backgroundColor: 'white',
+    scrollbarWidth: 'none',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
 }));
 
 const WhiteTextTypography = withStyles({
@@ -89,7 +99,7 @@ export default function Messages({ messages, username }: Props): ReactElement {
           return (
             <div key={i} className={`${classes.chatDiv} ${classes.center}`}>
               <Typography variant="caption" className="name">
-                {el.message}
+                {`${el.content} @ ${el.timeStamp}`}
               </Typography>
             </div>
           );
@@ -102,8 +112,17 @@ export default function Messages({ messages, username }: Props): ReactElement {
                   elevation={2}
                   className={`${classes.bubble} ${classes.bubbleRight}`}
                 >
-                  <Typography variant="body1">{el.message}</Typography>
+                  <Typography variant="body1">{el.content}</Typography>
                 </Paper>
+                <Typography
+                  variant="caption"
+                  className="name"
+                  color="textSecondary"
+                >
+                  {i === arr.length - 1 && arr[i].author === el.author
+                    ? el.timeStamp
+                    : null}
+                </Typography>
               </div>
             </div>
           );
@@ -123,9 +142,18 @@ export default function Messages({ messages, username }: Props): ReactElement {
                 className={`${classes.bubble} ${classes.bubbleLeft}`}
               >
                 <WhiteTextTypography variant="body1">
-                  {el.message}
+                  {el.content}
                 </WhiteTextTypography>
               </Paper>
+              <Typography
+                variant="caption"
+                className="name"
+                color="textSecondary"
+              >
+                {i === arr.length - 1 && arr[i].author === el.author
+                  ? el.timeStamp
+                  : null}{' '}
+              </Typography>
             </div>
           </div>
         );

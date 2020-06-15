@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { CssBaseline, Grid, makeStyles, Hidden, Box } from '@material-ui/core/';
 import { useSelector } from 'react-redux';
 import { WebSocketContext } from '../WebSocket';
@@ -39,11 +39,8 @@ function Chat(): React.ReactElement {
   const ws = useContext(WebSocketContext);
 
   const sendMessage = (msg: string) => {
-    if (ws && username) {
-      ws.sendMessage({
-        author: username,
-        message: msg,
-      });
+    if (ws) {
+      ws.sendMessage(msg);
     }
   };
 
@@ -66,12 +63,12 @@ function Chat(): React.ReactElement {
       <CssBaseline />
       <Grid container direction="row" className={classes.root}>
         <Hidden xsDown>
-          <Grid item sm={3}>
+          <Grid item sm={3} xl={2}>
             <TopBarUsers />
             <SideBar users={users} />
           </Grid>
         </Hidden>
-        <Grid item xs={12} sm={9} className={classes.chatWindow}>
+        <Grid item xs={12} sm={9} xl={10} className={classes.chatWindow}>
           <TopBarChat handleLogoff={handleLogOff} />
           <Box
             display="flex"
